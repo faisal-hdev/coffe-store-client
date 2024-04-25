@@ -3,6 +3,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import "sweetalert2/src/sweetalert2.scss";
 
 const CoffeeCart = ({ coffee, coffees, setCoffees }) => {
   const { _id, name, chef, supplier, taste, category, details, price, photo } =
@@ -36,7 +37,6 @@ const CoffeeCart = ({ coffee, coffees, setCoffees }) => {
               setCoffees(remaining);
             }
           });
-        // console.log("delete confirm");
       }
     });
   };
@@ -58,10 +58,13 @@ const CoffeeCart = ({ coffee, coffees, setCoffees }) => {
           <h2>Price : ${price}</h2>
         </div>
         <div className="flex flex-col gap-4 ">
-          <button className="btn btn-sm btn-info text-white">View</button>
-          <Link to={`updateCoffee/${_id}`}>
-            <button className="btn btn-sm btn-accent text-white">Edit</button>
+          <Link
+            className="btn btn-sm btn-accent text-white"
+            to={`updateCoffee/${_id}`}
+          >
+            <button className="">Edit</button>
           </Link>
+          <button className="btn btn-sm btn-info text-white">View</button>
           <button
             onClick={() => handleDelete(_id)}
             className="btn btn-sm text-white btn-error"
