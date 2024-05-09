@@ -13,7 +13,8 @@ import Users from "./components/Users.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    loader: () => fetch("http://localhost:5000/coffee"),
+    loader: () =>
+      fetch("https://coffee-store-server-six-eta.vercel.app/coffee"),
     element: <App></App>,
   },
   {
@@ -22,14 +23,17 @@ const router = createBrowserRouter([
   },
   {
     path: "/updateCoffee/:id",
-    loader: ({ params }) => fetch(`http://localhost:5000/coffee/${params.id}`),
+    loader: ({ params }) =>
+      fetch(
+        `https://coffee-store-server-six-eta.vercel.app/coffee/${params.id}`
+      ),
     element: <UpdateCoffee />,
   },
   { path: "/signIn", element: <SignIn /> },
   { path: "/signUp", element: <SignUp /> },
   {
     path: "/user",
-    loader: () => fetch("http://localhost:5000/user"),
+    loader: () => fetch("https://coffee-store-server-six-eta.vercel.app/user"),
     element: <Users />,
   },
 ]);

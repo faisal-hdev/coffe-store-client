@@ -5,22 +5,22 @@ const Users = () => {
   const loadedUsers = useLoaderData();
   const [users, setUsers] = useState(loadedUsers);
 
-    const handleDelete = (id) => {
-      // make sure user is confirmed to delete
-      fetch(`http://localhost:5000/user/${id}`, {
-        method: "DELETE",
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          if (data.deletedCount > 0) {
-            console.log("deleted successfully");
-            // remove the user form the ui
-            const remainingUsers = users.filter((user) => user._id !== id);
-            setUsers(remainingUsers);
-          }
-        });
-    };
+  const handleDelete = (id) => {
+    // make sure user is confirmed to delete
+    fetch(`https://coffee-store-server-six-eta.vercel.app/user/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.deletedCount > 0) {
+          console.log("deleted successfully");
+          // remove the user form the ui
+          const remainingUsers = users.filter((user) => user._id !== id);
+          setUsers(remainingUsers);
+        }
+      });
+  };
   return (
     <div>
       <h2>Users : {loadedUsers.length}</h2>
