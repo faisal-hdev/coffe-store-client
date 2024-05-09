@@ -1,9 +1,27 @@
-import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+// import { useEffect, useState } from "react";
 
-const Users = () => {
-  const loadedUsers = useLoaderData();
-  const [users, setUsers] = useState(loadedUsers);
+const Users2 = () => {
+  const {
+    isPending,
+    data: users,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      const res = await fetch("http://localhost:5000/user");
+      return res.json();
+    },
+  });
+  //   const [users, setUsers] = useState();
+  //   useEffect(() => {
+  //     fetch("http://localhost:5000/user")
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setUsers(data);
+  //       });
+  //   });
 
   const handleDelete = (id) => {
     // make sure user is confirmed to delete
@@ -16,14 +34,23 @@ const Users = () => {
         if (data.deletedCount > 0) {
           console.log("deleted successfully");
           // remove the user form the ui
-          const remainingUsers = users.filter((user) => user._id !== id);
-          setUsers(remainingUsers);
+          //   const remainingUsers = users.filter((user) => user._id !== id);
+          //   setUsers(remainingUsers);
         }
       });
   };
+
+  if (isPending) {
+    return <span className="loading loading-spinner text-primary"></span>;
+  }
+
+  if (isError) {
+    return <p>{error.message}</p>;
+  }
+
   return (
     <div>
-      <h2>Users : {loadedUsers.length}</h2>
+      {/* <h2>Users : {loadedUsers.length}</h2> */}
       <div className="overflow-x-auto">
         <table className="table">
           <thead>
@@ -36,7 +63,7 @@ const Users = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, idx) => (
+            {users?.map((user, idx) => (
               <tr key={user._id}>
                 <th>{idx * 1}</th>
                 <td>{user.email}</td>
@@ -59,4 +86,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Users2;

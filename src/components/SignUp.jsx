@@ -1,9 +1,25 @@
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
+import axios from "axios";
+// import { data } from "autoprefixer";
+// import axios from "axios";
+// import { data } from "autoprefixer";
 
 const SignUp = () => {
   const { createUser } = useContext(AuthContext);
+
+  // useEffect(() => {
+  //   fetch("/")
+  //     .then((res) => res.json())
+  //     .then((data) => console.log(data));
+  // }, []);
+
+  // useEffect(() => {
+  //   axios.get("/").then((data) => {
+  //     console.log(data.data);
+  //   });
+  // }, []);
 
   const handleSignUp = (e) => {
     e.preventDefault();
@@ -18,24 +34,32 @@ const SignUp = () => {
         // new user has been created
         const createAt = result?.user?.metadata?.creationTime;
         const user = { email, createdAt: createAt };
-        fetch("https://coffee-store-server-six-eta.vercel.app/user", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(user),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.insertedId) {
-              Swal.fire({
-                title: "Good job!",
-                text: "User added to the Database!",
-                icon: "success",
-              });
-            }
-            console.log(data);
-          });
+        // using axios
+        axios.post("http://localhost:5000/user", user).then((data) => {
+          if (data.data.insertedId) {
+            console.log("data added to the database");
+          }
+        });
+
+        // using fetch
+        // fetch("http://localhost:5000/user", {
+        //   method: "POST",
+        //   headers: {
+        //     "content-type": "application/json",
+        //   },
+        //   body: JSON.stringify(user),
+        // });
+        // .then((res) => res.json())
+        // .then((data) => {
+        //   if (data.insertedId) {
+        //     Swal.fire({
+        //       title: "Good job!",
+        //       text: "User added to the Database!",
+        //       icon: "success",
+        //     });
+        //   }
+        //   console.log(data);
+        // });
       })
       .catch((error) => {
         console.error(error);
